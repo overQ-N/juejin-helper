@@ -10,7 +10,7 @@ class Task {
 
   taskName = "";
 
-  async run() {}
+  async run() { }
 
   toString() {
     return `[${this.taskName}]`;
@@ -246,7 +246,7 @@ class CheckIn {
     this.growthTask = new GrowthTask(juejin);
     this.dipLuckyTask = new DipLuckyTask(juejin);
     this.lotteriesTask = new LotteriesTask(juejin);
-    this.bugfixTask = new BugfixTask(juejin);
+    // this.bugfixTask = new BugfixTask(juejin);
     this.sdkTask = new SdkTask(juejin);
     this.mockVisitTask = new MockVisitTask(juejin);
 
@@ -254,12 +254,12 @@ class CheckIn {
     await this.sdkTask.run();
     console.log(`运行 ${this.growthTask.taskName}`);
     await this.growthTask.run();
-    console.log(`运行 ${this.dipLuckyTask.taskName}`);
-    await this.dipLuckyTask.run();
+
+    // await this.dipLuckyTask.run();
     console.log(`运行 ${this.lotteriesTask.taskName}`);
     await this.lotteriesTask.run(this.growthTask, this.dipLuckyTask);
-    console.log(`运行 ${this.bugfixTask.taskName}`);
-    await this.bugfixTask.run();
+    // console.log(`运行 ${this.bugfixTask.taskName}`);
+    // await this.bugfixTask.run();
     await juejin.logout();
     console.log("-------------------------");
 
@@ -279,31 +279,17 @@ class CheckIn {
 
     return `
 掘友: ${this.username}
-${
-  {
-    0: "签到失败",
-    1: `签到成功 +${this.growthTask.incrPoint} 矿石`,
-    2: "今日已完成签到"
-  }[this.growthTask.todayStatus]
-}
-${
-  {
-    0: "沾喜气失败",
-    1: `沾喜气 +${this.dipLuckyTask.dipValue} 幸运值`,
-    2: "今日已经沾过喜气"
-  }[this.dipLuckyTask.dipStatus]
-}
-${
-  this.bugfixTask.bugStatus === 1
-    ? this.bugfixTask.collectBugCount > 0
-      ? `收集Bug +${this.bugfixTask.collectBugCount}`
-      : "没有可收集Bug"
-    : "收集Bug失败"
-}
+${{
+        0: "签到失败",
+        1: `签到成功 +${this.growthTask.incrPoint} 矿石`,
+        2: "今日已完成签到"
+      }[this.growthTask.todayStatus]
+      }
+
 连续签到天数 ${this.growthTask.contCount}
 累计签到天数 ${this.growthTask.sumCount}
 当前矿石数 ${this.growthTask.sumPoint}
-当前未消除Bug数量 ${this.bugfixTask.userOwnBug}
+
 当前幸运值 ${this.dipLuckyTask.luckyValue}/6000
 预测All In矿石累计幸运值比率 ${(this.lotteriesTask.luckyValueProbability * 100).toFixed(2) + "%"}
 抽奖总次数 ${this.lotteriesTask.lotteryCount}
